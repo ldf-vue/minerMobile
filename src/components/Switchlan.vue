@@ -12,13 +12,14 @@
 
 <script>
 import Vue from 'vue'
+import store from '../vuex/vuex.js'
 
 export default {
   name: 'Switchlan',
   data () {
     return {
       msg: 'Switchlan',
-      lan: window.localStorage.getItem('lan') || 'cn'
+      lan: window.localStorage.getItem('lan') || window.localStorage.setItem('lan', 'cn') || 'cn'
     }
   },
   computed: {
@@ -44,7 +45,7 @@ export default {
     },
     changeLanguage (type) {
       Vue.config.lang = type
-      window.localStorage.setItem('lan', type)
+      store.commit('increment', type)
       document.getElementById('Switchlan').setAttribute('hide', 'true')
       document.getElementById('select').className = 'select hide'
       if (type === 'cn') {

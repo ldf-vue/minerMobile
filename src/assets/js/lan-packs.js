@@ -18,6 +18,7 @@ var locales = {
       {name: 'About'},
       {name: 'FAQ'}
     ],
+    navSidebar: 'Sidebar',
     subTitle: {
       miners: 'Miners',
       instructions: 'Instructions'
@@ -40,6 +41,7 @@ var locales = {
       {name: '关于'},
       {name: 'FAQ'}
     ],
+    navSidebar: '侧边内容',
     subTitle: {
       miners: '矿机',
       instructions: '配置说明'

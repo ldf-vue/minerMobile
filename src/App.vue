@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar></Navbar>
-    <router-view></router-view>
+    <router-view class="router"></router-view>
     <Footer></Footer>
   </div>
 </template>
@@ -21,15 +21,32 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 64px;
-}
-a {
-  /*text-decoration: none !important;*/
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 64px;
+    background: #fbf8f8;
+  }
+  a {
+    /*text-decoration: none !important;*/
+  }
+  .router {
+    max-width: 450px;
+    margin: .64rem auto .1rem;
+  }
+  #app .md-dialog-actions {
+    position: relative;
+  }
+  #app .md-dialog-actions:before {
+    background-color: #d9d9da;
+  }
+  #app .md-primary {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #048aef;
+  }
 </style>

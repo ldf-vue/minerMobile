@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
+import VueResource from 'vue-resource'
 import { Swipe, SwipeItem, Loadmore } from 'mint-ui'
 import App from './App'
 import router from './router'
@@ -15,6 +16,7 @@ Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
 Vue.component(Loadmore.name, Loadmore)
 
+Vue.use(VueResource)
 Vue.use(VueMaterial)
 Vue.material.registerTheme('default', {
   primary: 'white',

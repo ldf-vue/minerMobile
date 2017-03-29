@@ -37,16 +37,16 @@ export default {
 <style scoped>
 	.theFaq {
 		text-align: left;
-		padding: .09rem;
-		background-color: #f1f1f3;
+		padding: 0 .09rem;
+		/*background-color: #f1f1f3;*/
 	}
 	.faqWrap {
     margin: 0 auto;
-    padding-bottom: .6rem;
+    padding-bottom: .06rem;
   }
   .faqWrap .pageTitle {
     font-size: .26rem;
-    padding: .15rem 0;
+    padding: .15rem 0 0;
 	}
 	.faqWrap .subTitle {
     font-size: .18rem;

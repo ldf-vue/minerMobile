@@ -1,60 +1,46 @@
 <template>
   <div class="home" id="home">
 		<mt-swipe :auto="4000" class="autoSwipe" :prevent="true">
-		  <mt-swipe-item class="swipeItem one">1</mt-swipe-item>
-		  <mt-swipe-item class="swipeItem two">2</mt-swipe-item>
-		  <mt-swipe-item class="swipeItem three">3</mt-swipe-item>
+		  <mt-swipe-item class="swipeItem one">
+				<img src="https://www.pandaminer.com/static/img/ac/indexBanner_userFeedback.png" />
+		  </mt-swipe-item>
+		  <mt-swipe-item class="swipeItem two">
+		  	<img src="https://www.pandaminer.com/static/img/ac/indexBanner_userFeedback.png" />
+		  </mt-swipe-item>
+		  <mt-swipe-item class="swipeItem three">
+				<img src="https://www.pandaminer.com/static/img/ac/indexBanner_userFeedback.png" />
+		  </mt-swipe-item>
 		</mt-swipe>
 		
-		<h2 class="hotTitle">热门产品</h2>
+		<h2 class="hotTitle">{{ $t('homeContent.hotProducts.hot') }}</h2>
 		<div class="phone-viewport">
-		  <md-list class="custom-list md-triple-line">
-		  <router-link :to="{ path: 'productDetail/id=22' }">
-		    <md-list-item class="listsItem" disabled>
-		      <md-avatar>
-		        <img src="https://placeimg.com/40/40/people/1" alt="People" class="pictures">
-		      </md-avatar>
+		  <md-list class="custom-list md-triple-line" v-for="hot in hotProducts" :key="hot.id">
 
-		      <div class="md-list-text-container">
-		        <h1 class="title">某某矿机</h1>
-		        <p class="description">I'll be in your neighborhood doing errands...</p>
-		      </div>
+			  <router-link :to="{ path: 'productDetail/' + hot._id }">
+			    <md-list-item class="listsItem" disabled>
+			      <md-avatar>
+			        <img :src="hot.pics[0]" alt="People" class="pictures">
+			      </md-avatar>
 
-		      <md-button class="md-icon-button md-list-action buyNow">
-		        <md-icon>
-		        	<!-- <router-link :to="{ path: 'productDetail/id=22' }">buy</router-link> -->
-		        </md-icon>
-		      </md-button>
+			      <div class="md-list-text-container">
+			        <h1 class="title">{{ hot.title[lan] }}</h1>
+			        <p class="description test-ellipsis">{{ hot.keywords[lan] }}</p>
+			      </div>
 
-		      <md-divider class="md-inset"></md-divider>
-		    </md-list-item>
-	    </router-link>
+			      <md-button class="md-icon-button md-list-action buyNow">
+			        <md-icon>
+			        	<!-- <router-link :to="{ path: 'productDetail/id=22' }">buy</router-link> -->
+			        </md-icon>
+			      </md-button>
+
+			      <md-divider class="md-inset"></md-divider>
+			    </md-list-item>
+		    </router-link>
 				
-			<router-link :to="{ path: 'productDetail/id=22' }">
-		    <md-list-item class="listsItem" disabled>
-		      <md-avatar>
-		        <img src="https://placeimg.com/40/40/people/6" alt="People" class="pictures">
-		      </md-avatar>
-
-		      <div class="md-list-text-container">
-		        <h1 class="title">某某矿机</h1>
-		        <p class="description">I'll be in your neighborhood doing errands...</p>
-		      </div>
-
-		      <md-button class="md-icon-button md-list-action buyNow">
-		        <md-icon>
-							<!-- <router-link :to="{ path: 'productDetail/id=22' }">buy</router-link> -->
-		        </md-icon>
-		      </md-button>
-
-		      <md-divider class="md-inset"></md-divider>
-		    </md-list-item>
-	    </router-link>
-
 		  </md-list>
 		</div>
 		<div class="moreProducts">
-			<router-link to="productList">了解更多商品</router-link>
+			<router-link to="productList">{{ $t('homeContent.hotProducts.more') }}...</router-link>
 		</div>
 		
 		<div class="productsIntro">
@@ -94,20 +80,46 @@
 </template>
 
 <script>
+import '../assets/js/home-package.js'
+import store from '../vuex/vuex.js'
+import api from '../../static/js/api.js'
+
+// import { locales } from '../assets/js/home-package.js'
+// console.log(locales)
 export default {
   name: 'home',
   data () {
     return {
-      msg: 'home home home'
+      msg: 'home home home',
+      hotProducts: []
     }
+  },
+  computed: {
+    lan: function () {
+      return (store.state.lan === 'cn') ? 0 : 1
+    }
+  },
+  mounted: function () {
+    this.$http({
+      url: api.baseUrl + 'getHots',
+      method: 'GET'
+    }).then(function (data) {
+      // console.log(data.body)
+      var re = data.body
+      for (var i = 0; i < re.length; i++) {
+        this.hotProducts.push(re[i])
+      }
+    })
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	.home {
 		/*height: 2000px;*/
+		background: #fbf8f8;
 	}
 	.autoSwipe {
 		height: 1.8rem;
@@ -115,16 +127,20 @@ export default {
 		/*background: red;*/
 	}
 	.autoSwipe .swipeItem {
-		line-height: 1.8rem;
+		/*line-height: 1.8rem;*/
+	}
+	.autoSwipe .swipeItem img {
+		width: 100%;
+		height: 100%;
 	}
 	#home .one {
-		background: red;
+		/*background: red;*/
 	}
 	#home .two {
-		background: yellow;
+		/*background: yellow;*/
 	}
 	#home .three {
-		background: #0089dc;
+		/*background: #0089dc;*/
 	}
 	.hotProducts {
 		height: 350px;
@@ -145,33 +161,52 @@ export default {
 	}
 	
 	.hotTitle {
-		margin-top: .05rem;
+		padding-top: .075rem;
 		position: relative;
-		display: inline-block;
+		/*display: inline-block;*/
+		text-align: left;
 		color: rgba(0,0,0,.54);
+    padding-left: .09rem;
+    font-family: Roboto,sans-serif;
+    font-size: .24rem;
+    font-weight: 300;
+    background: #fbf8f8;
 	}
 	.hotTitle:before {
-		content: '';
+		/*content: '';
 		display: inline-block;
 		width: .8rem;
 		height: 0;
 		border-top: 1px solid;
 		position: absolute;
 		top: .09rem;
-		left: -.91rem;
+		left: -.91rem;*/
 	}
 	.hotTitle:after {
-		content: '';
+		content: "";
+    display: block;
+    width: .25rem;
+    height: .04rem;
+    margin-top: .125rem;
+    background: #f8b600;
+		/*content: '';
 		display: inline-block;
 		width: .8rem;
 		height: 0;
 		border-top: 1px solid;
 		position: absolute;
 		top: .09rem;
-		margin-left: .11rem;
+		margin-left: .11rem;*/
+	}
+	#home .md-list-text-container {
+    width: 70%;
 	}
 	#home .md-button {
 		height: 1.6rem;
+	}
+	#home .md-list {
+		padding: 0;
+    background: #fbf8f8;
 	}
 	#home .pictures {
 		/*background: red;*/
@@ -179,20 +214,25 @@ export default {
 	#home .md-avatar {
 		width: 2.2rem;
 		height: 1.2rem;
-		border-radius: 0;
+		border-radius: 5px;
 	}
 	#home .title {
 		color: #000;
 	}
 	#home .md-inset {
 		margin-left: 0;
+		/*box-shadow: 0 0 .5px #888;*/
+	}
+	#home .md-list a:nth-child(2) li .md-inset {
+		/*box-shadow: 0 0 0 #fbf8f8;
+		background: #fbf8f8;*/
 	}
 	.moreProducts {
-		margin-top: .08rem;
-		position: relative;
+		padding-top: .08rem;
+		background: #fbf8f8;
 	}
 	.moreProducts:after {
-		content: '';
+		/*content: '';
 		display: inline-block;
 		width: .08rem;
 		height: .08rem;
@@ -204,39 +244,28 @@ export default {
 		border: 1px solid;
 		border-bottom-width: 0;
 		border-left-width: 0;
+		color: rgba(0,0,0,.54);*/
 	}
 	#home .moreProducts a {
-		color: #000;
+		color: rgba(0,0,0,.54);
 	}
-
-	#home .buyNow {
-		
-	}
-	/*#home .buyNow a {
-		display: inline-block;
-		height: .3rem;
-		padding: .05rem .1rem;
-		background: #f8b600;
-		border-radius: 6px;
-		color: #fff;
-	}*/
 
 	/* 矿机介绍 */
 	.productsIntro {
 		padding: .09rem;
 		position: relative;
-		height: 2.55rem;
+		height: 2.4rem;
 		margin-top: .08rem;
 		color: #fff;
 		background: url('../../static/img/bg.jpg') 50% 50% no-repeat;
 		background-size: 100% 2.5rem;
 	}
 	.productsIntro h2 {
-		padding-top: .15rem;
-		margin-bottom: .07rem;
+		padding-top: .08rem;
+		margin-bottom: .05rem;
 	}
 	.productsIntro p {
-		font-size: .11rem;
+		font-size: .12rem;
 		line-height: .16rem;
 	}
 
@@ -256,14 +285,14 @@ export default {
     padding-left: .49rem;
 	}
 	.featureList .compare {
-    font-size: 10px;
+    font-size: .12rem;
     color: #666;
     padding-top: .1rem;
 	}
 	.featureList .feature {
     color: #fff;
-    font-size: 16px;
-    line-height: 25px;
+    font-size: .16rem;
+    line-height: .25rem;
 	}
 	.featureList .featureItem_center {
     padding: .1rem .35rem;
@@ -272,7 +301,7 @@ export default {
 	/* 公司介绍 */
 	.companyIntro {
 		margin-bottom: .1rem;
-		padding: .09rem;
+		padding: .1rem .09rem;
 	}
 	.companyIntro .companyLogo {
     background-image: url('../../static/img/logo.png');
@@ -281,7 +310,7 @@ export default {
     width: 1.5rem;
     height: 1.2rem;
     text-indent: -9999px;
-    margin: -.3rem auto .05rem;
+    margin: -.35rem auto .05rem;
 	}
 	.companyIntro .content {
 		margin: 0 auto;
@@ -301,6 +330,6 @@ export default {
 	}
 	.content p {
     line-height: 25px;
-    font-size: .12rem;
+    font-size: .13rem;
 	}
 </style>
